@@ -1,627 +1,906 @@
+<!-- 
+File: index.html
+Description: Global RFID Apparel Tag Manufacturer Website (English Version with Multi-Industry Focus)
+Styling: Tailwind CSS
+Features: Smooth scrolling, responsive design, Formspree integration for contact, detailed product modal.
+Color Scheme: Light Mode (White/Light Gray)
+Optimizations: Now includes responsive mobile navigation (Hamburger Menu), corrected language in modal details, and improved semantic structure.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- 字符编码设置：确保支持中文和所有特殊字符 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global RFID Apparel Tag Manufacturer</title>
-    
+    <title>LFE SMART RFID - Global Manufacturer</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-            color: #1f2937;
-        }
-        .accent-color {
-            color: #06b6d4; 
-        }
-        .bg-accent {
-            background-color: #06b6d4;
-        }
-        .product-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            border: 1px solid #e5e7eb; 
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(6, 182, 212, 0.2);
-        }
-
-        @keyframes pulse-wave {
-            0% {
-                transform: scale(1);
-                opacity: 0.7;
-                stroke-width: 4;
-            }
-            100% {
-                transform: scale(5);
-                opacity: 0;
-                stroke-width: 0;
-            }
-        }
-        .rfid-wave-container .rfid-center {
-            fill: #06b6d4; 
-            stroke: #f3f4f6; 
-            stroke-width: 2;
-        }
-        .rfid-wave-container .rfid-wave {
-            transform-origin: center; 
-            animation: pulse-wave 4s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-            stroke: #06b6d4; 
-            fill: none;
-            stroke-width: 3;
-        }
-        .rfid-wave-container .wave-1 { animation-delay: 0s; }
-        .rfid-wave-container .wave-2 { animation-delay: 1.3s; }
-        .rfid-wave-container .wave-3 { animation-delay: 2.6s; }
-    </style>
-    
-</head>
-<body class="antialiased">
-
-    <!-- JavaScript Functions for Interaction -->
     <script>
-        // Smooth scrolling function (平滑滚动功能)
-        function scrollToSection(id) {
-            const section = document.getElementById(id);
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // PRIMARY COLORS ADJUSTED FOR LIGHT MODE
+                        'primary-light': '#ffffff', 
+                        'primary-text': '#1f2937', // Dark text color (Gray-900)
+                        'accent-cyan': '#06b6d4', // Cyan-500 for brand emphasis
+                        'accent-hover': '#0891b2', // Cyan-600 for hover effects
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
             }
-            // Close mobile menu after selection (选择后关闭移动菜单)
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-        }
-
-        // Toggle mobile menu visibility (切换移动菜单可见性)
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
-
-        // Show product details modal (显示产品详情模态框)
-        function showProductDetails(productId) {
-            const modal = document.getElementById('product-modal');
-            const titleElement = document.getElementById('modal-title');
-            const detailsElement = document.getElementById('modal-details');
-            
-            let title = ''; 
-            let details = '';
-
-            // Enhanced Product Descriptions (优化后的产品描述)
-            switch (productId) {
-                case 'hang-tag':
-                    title = 'RFID Hang Tags / Stickers (UHF)'; 
-                    details = `
-                        <h4 class="text-lg font-bold text-gray-800 mb-2">Key Features:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-600 mb-4">
-                            <li>Protocol: EPC Class 1 Gen 2 (ISO 18000-6C) for global compatibility.</li>
-                            <li>Material Options: Durable paper, PVC, or specialized synthetic materials for enhanced lifespan.</li>
-                            <li>Customization: Supports high-resolution graphic printing, variable data (barcodes, QR codes), and pre-encoding services.</li>
-                            <li>Performance: Optimized antenna design ensures high reading sensitivity in dense retail environments.</li>
-                        </ul>
-                        
-                        <h4 class="text-lg font-bold text-gray-800 mb-2">Primary Benefits:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-600 mb-4">
-                            <li>Inventory Accuracy: Achieve >99% inventory accuracy with quick, item-level counting.</li>
-                            <li>Speed: Dramatically reduces counting time; a full store inventory can be completed in minutes, not days.</li>
-                            <li>Loss Prevention: Enables real-time tracking, reducing shrinkage and improving security.</li>
-                            <li>Source Tagging: Easily applied at the manufacturing stage for "born with" identification.</li>
-                        </ul>
-                    `;
-                    break;
-                case 'laundry-tag':
-                    title = 'Industrial Grade RFID Laundry Tags'; 
-                    details = `
-                        <h4 class="text-lg font-bold text-gray-800 mb-2">Key Features:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-600 mb-4">
-                            <li>Durability: Resistant to over 200 high-temperature, high-pressure industrial wash cycles.</li>
-                            <li>Environment Resistance: Immune to chemicals, detergents, and high-heat sterilization processes (up to 200°C / 392°F).</li>
-                            <li>Design: Small, flexible, and discreet for easy sewing into hems, seams, or linens without causing wear or discomfort.</li>
-                            <li>Reliability: Maintains stable read performance even when wet or subjected to pressure.</li>
-                        </ul>
-                        
-                        <h4 class="text-lg font-bold text-gray-800 mb-2">Ideal Applications:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-600 mb-4">
-                            <li>Hospitality: Tracking hotel linens, towels, and bathrobes for lifecycle management.</li>
-                            <li>Healthcare: Monitoring hospital uniforms, patient gowns, and surgical drapes for infection control.</li>
-                            <li>Industrial Garments: Rental uniform tracking and management for commercial laundry services.</li>
-                        </ul>
-                    `;
-                    break;
-                case 'inlay-tag':
-                    title = 'RFID Inlays (Wet & Dry)'; 
-                    details = `
-                        <h4 class="text-lg font-bold text-gray-800 mb-2">Key Features:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-600 mb-4">
-                            <li>Component: The core tag structure (antenna and chip) before final conversion into labels or tags.</li>
-                            <li>Options: Available as Dry Inlays (no adhesive) or Wet Inlays (with adhesive liner).</li>
-                            <li>Chip Variety: Supports all major chip platforms, including Impinj, Alien, NXP, etc., tailored to regional frequency requirements.</li>
-                            <li>Antenna Tuning: Optimized antenna dimensions for embedding into various materials (cardboard, plastic, fabric).</li>
-                        </ul>
-                        
-                        <h4 class="text-lg font-bold text-gray-800 mb-2">Manufacturing Advantage:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-600 mb-4">
-                            <li>Maximum Cost Efficiency: Provides the lowest unit cost for high-volume integrators.</li>
-                            <li>Flexibility: Can be converted into custom-shaped stickers, integrated into woven labels, or embedded discreetly into packaging.</li>
-                            <li>Quality: Produced on fully automated lines with 100% functional testing prior to shipping.</li>
-                        </ul>
-                    `;
-                    break;
-            }
-
-            titleElement.innerText = title;
-            // Setting the details as innerHTML to render the lists and bold formatting
-            detailsElement.innerHTML = details; 
-            modal.classList.remove('hidden');
-        }
-
-        // Hide modal (隐藏模态框)
-        function hideProductDetails() {
-            document.getElementById('product-modal').classList.add('hidden');
         }
     </script>
+    <style>
+        /* Custom scroll behavior */
+        html { scroll-behavior: smooth; }
+        
+        /* Style for the fixed WhatsApp button */
+        .whatsapp-float {
+            position: fixed;
+            width: 50px; /* Slightly smaller for mobile */
+            height: 50px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25D366; 
+            color: #FFF;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 24px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6);
+        }
+        .whatsapp-icon {
+            margin-top: 13px; /* Center icon */
+        }
+
+        /* Fixed Back-to-Top Button Style */
+        .scroll-top-button {
+            position: fixed;
+            bottom: 110px; /* Above WhatsApp button */
+            right: 40px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #1f2937; /* Dark background for contrast */
+            color: #ffffff;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .scroll-top-button.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .scroll-top-button:hover {
+            background-color: #06b6d4; /* Hover color change */
+        }
 
 
-    <!-- Header & Navigation -->
-    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm shadow-md border-b border-gray-200">
+        /* Ensure Navbar items are on one line */
+        .brand-name {
+            white-space: nowrap;
+        }
+
+        /* Modal specific styles for transition */
+        .modal-container {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .modal-content {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Utility classes for modal management (used by JS) */
+        .modal-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .modal-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Capacity Counter Fade In Effect */
+        .counter-value {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .counter-value.counted {
+            opacity: 1;
+        }
+
+        /* Responsive adjustments for floating buttons on small screens */
+        @media (max-width: 640px) {
+            .whatsapp-float, .scroll-top-button {
+                right: 20px;
+                bottom: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+            }
+            .whatsapp-icon { margin-top: 11px; }
+            .scroll-top-button { bottom: 85px; } /* Adjust position */
+        }
+    </style>
+</head>
+<body class="font-sans bg-white text-gray-900">
+
+    <!-- Navbar (Fixed) - Light Background -->
+    <nav class="sticky top-0 z-50 bg-white/95 border-b border-gray-200 backdrop-blur-sm shadow-xl" role="navigation">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-4 md:justify-start md:space-x-10">
-                <div class="flex justify-start lg:w-0 lg:flex-1">
-                    <!-- OPTIMIZED: Added whitespace-nowrap and responsive font size for better mobile display -->
-                    <a href="#" class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 whitespace-nowrap" title="LFE SMART RFID Logo">
-                        <span class="text-gray-900">LFE SMART</span><span class="accent-color"> RFID</span>
-                    </a>
+            <div class="flex justify-between h-16">
+                <!-- Logo/Brand Name -->
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="brand-name text-2xl font-extrabold tracking-tight text-primary-text">
+                        LFE SMART <span class="text-accent-cyan">RFID</span>
+                    </span>
                 </div>
                 
-                <div class="-mr-2 -my-2 md:hidden">
-                    <button type="button" onclick="toggleMobileMenu()" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent-cyan transition" aria-expanded="false">
-                        <span class="sr-only">Open main menu</span>
-                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <!-- Desktop Navigation Links -->
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                    <!-- Added list structure for better semantics -->
+                    <ul class="flex space-x-8">
+                        <li><a href="#home" onclick="scrollToSection('home')" class="text-gray-700 hover:text-accent-cyan inline-flex items-center px-1 pt-1 text-sm font-medium transition duration-150 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-cyan">Home</a></li>
+                        <li><a href="#about" onclick="scrollToSection('about')" class="text-gray-700 hover:text-accent-cyan inline-flex items-center px-1 pt-1 text-sm font-medium transition duration-150 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-cyan">About Us</a></li>
+                        <li><a href="#products" onclick="scrollToSection('products')" class="text-gray-700 hover:text-accent-cyan inline-flex items-center px-1 pt-1 text-sm font-medium transition duration-150 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-cyan">Products</a></li>
+                        <li><a href="#capacity" onclick="scrollToSection('capacity')" class="text-gray-700 hover:text-accent-cyan inline-flex items-center px-1 pt-1 text-sm font-medium transition duration-150 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-cyan">Capacity</a></li>
+                        <li><a href="#solutions" onclick="scrollToSection('solutions')" class="text-gray-700 hover:text-accent-cyan inline-flex items-center px-1 pt-1 text-sm font-medium transition duration-150 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-cyan">Solutions</a></li>
+                        <li><a href="#contact" onclick="scrollToSection('contact')" class="text-gray-700 hover:text-accent-cyan inline-flex items-center px-1 pt-1 text-sm font-medium transition duration-150 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-cyan">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" id="mobile-menu-button" onclick="toggleMobileMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent-cyan" aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle navigation menu">
+                        <svg id="menu-icon-open" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg id="menu-icon-close" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
-
-                <!-- Desktop Navigation Links -->
-                <nav class="hidden md:flex space-x-10">
-                    <a onclick="scrollToSection('home')" class="text-base font-medium text-gray-600 hover:text-accent-cyan cursor-pointer transition">Home</a>
-                    <a onclick="scrollToSection('about')" class="text-base font-medium text-gray-600 hover:text-accent-cyan cursor-pointer transition">About Us</a>
-                    <a onclick="scrollToSection('capacity')" class="text-base font-medium text-gray-600 hover:text-accent-cyan cursor-pointer transition">Capacity</a>
-                    <a onclick="scrollToSection('products')" class="text-base font-medium text-gray-600 hover:text-accent-cyan cursor-pointer transition">Products</a>
-                    <a onclick="scrollToSection('solutions')" class="text-base font-medium text-gray-600 hover:text-accent-cyan cursor-pointer transition">Solutions</a>
-                    <a onclick="scrollToSection('technology')" class="class="text-base font-medium text-gray-600 hover:text-accent-cyan cursor-pointer transition"">Technology</a>
-                    <a onclick="scrollToSection('contact')" class="text-base font-medium text-gray-600 hover:text-accent-cyan cursor-pointer transition">Contact</a>
-                </nav>
-                <!-- CTA Button (Desktop) -->
-                <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-                    <button onclick="scrollToSection('contact')" class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-full border border-transparent bg-accent-cyan px-4 py-2 text-base font-medium text-white shadow-md hover:bg-cyan-600 transition">
-                        Get Quote Now
-                    </button>
-                </div>
             </div>
         </div>
-        
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden z-40 bg-white shadow-xl rounded-lg">
-            <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 divide-y-2 divide-gray-50">
-                <div class="px-5 pt-5 pb-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <!-- OPTIMIZED: Added whitespace-nowrap and responsive font size for better mobile display -->
-                            <a href="#" class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 whitespace-nowrap"><span class="text-gray-900">LFE SMART</span><span class="accent-color"> RFID</span></a>
-                        </div>
-                        <div class="-mr-2">
-                            <button type="button" onclick="toggleMobileMenu()" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent-cyan transition">
-                                <span class="sr-only">Close menu</span>
-                                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="mt-6">
-                        <nav class="grid gap-y-8">
-                            <a onclick="scrollToSection('home')" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50 transition">Home</a>
-                            <a onclick="scrollToSection('about')" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50 transition">About Us</a>
-                            <a onclick="scrollToSection('capacity')" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50 transition">Capacity</a>
-                            <a onclick="scrollToSection('products')" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50 transition">Products</a>
-                            <a onclick="scrollToSection('solutions')" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50 transition">Solutions</a>
-                            <a onclick="scrollToSection('technology')" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50 transition">Technology</a>
-                            <a onclick="scrollToSection('contact')" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50 transition">Contact</a>
-                        </nav>
-                    </div>
-                    <div class="mt-6">
-                        <button onclick="scrollToSection('contact')" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm text-base font-medium text-white bg-accent-cyan hover:bg-cyan-600 transition">
-                            Get Quote Now
-                        </button>
-                    </div>
-                </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="sm:hidden hidden" role="menu" aria-labelledby="mobile-menu-button">
+            <div class="pt-2 pb-3 space-y-1 px-2">
+                <a href="#home" onclick="scrollToSection('home'); toggleMobileMenu();" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-accent-cyan">Home</a>
+                <a href="#about" onclick="scrollToSection('about'); toggleMobileMenu();" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-accent-cyan">About Us</a>
+                <a href="#products" onclick="scrollToSection('products'); toggleMobileMenu();" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-accent-cyan">Products</a>
+                <a href="#capacity" onclick="scrollToSection('capacity'); toggleMobileMenu();" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-accent-cyan">Capacity</a>
+                <a href="#solutions" onclick="scrollToSection('solutions'); toggleMobileMenu();" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-accent-cyan">Solutions</a>
+                <a href="#contact" onclick="scrollToSection('contact'); toggleMobileMenu();" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-accent-cyan">Contact</a>
             </div>
         </div>
-    </header>
+    </nav>
 
+    <!-- Main Content -->
     <main>
-        <!-- Hero Section -->
-        <section id="home" class="relative overflow-hidden pt-20 pb-20 sm:pt-28 sm:pb-28">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <div class="lg:w-3/4 mx-auto">
-                    <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6">
-                        <span class="block text-gray-900">Empowering Future Retail</span>
-                        <span class="block accent-color mt-2">A Global Leader in Apparel RFID Tag Manufacturing</span>
-                    </h1>
-                    <p class="mt-3 max-w-md mx-auto text-xl text-gray-600 sm:text-2xl md:mt-5 md:max-w-3xl">
-                        Specializing in providing high-performance, high-reliability, and highly customizable RFID products and solutions for global apparel brands and supply chains.
-                    </p>
-                    <div class="mt-10 flex justify-center space-x-4">
-                        <a onclick="scrollToSection('products')" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full text-white bg-accent-cyan hover:bg-cyan-600 md:py-4 md:text-lg md:px-10 transition shadow-lg cursor-pointer">
-                            Explore Our Products
-                        </a>
-                        <button onclick="scrollToSection('contact')" class="inline-flex items-center justify-center px-8 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-700 bg-transparent hover:bg-gray-100 md:py-4 md:text-lg md:px-10 transition">
-                            Contact Sales
-                        </button>
-                    </div>
+        
+        <!-- 1. Hero Section -->
+        <section id="home" class="relative overflow-hidden pt-20 pb-28 sm:pt-24 sm:pb-36 lg:pt-32 lg:pb-48 bg-gray-50 border-b border-gray-200">
+            <!-- Background changed to a subtle texture/color for better flow -->
+            <div class="absolute inset-0 opacity-20 bg-repeat" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><circle cx="50" cy="50" r="10" fill="%2306b6d4" /></svg>');"></div>
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+                <!-- H1 Width constraint added for large screens -->
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-primary-text lg:max-w-4xl lg:mx-auto">
+                    <span class="block">The Future of <span class="text-accent-cyan">Asset Intelligence</span></span>
+                    <span class="block mt-2 sm:mt-4">Starts With Our Tags.</span>
+                </h1>
+                <p class="mt-6 max-w-3xl mx-auto text-xl text-gray-600">
+                    LFE SMART RFID is a global leader in high-performance RFID tag manufacturing, empowering retail, logistics, and industrial sectors with precision tracking solutions.
+                </p>
+                <div class="mt-10 flex justify-center space-x-4">
+                    <!-- Added focus:ring for A11Y -->
+                    <a href="#products" onclick="scrollToSection('products')" class="px-8 py-3 border border-transparent text-base font-medium rounded-full text-white bg-accent-cyan hover:bg-accent-hover transition duration-300 shadow-xl transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-accent-cyan/50">
+                        Explore Products
+                    </a>
+                    <!-- Added focus:ring for A11Y -->
+                    <a href="#contact" onclick="scrollToSection('contact')" class="px-8 py-3 border border-accent-cyan text-base font-medium rounded-full text-accent-cyan hover:bg-accent-cyan hover:text-white transition duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-accent-cyan/50">
+                        Get a Custom Quote
+                    </a>
                 </div>
             </div>
-            
-            <!-- RFID Signal Wave Animation -->
-            <div class="mt-16 flex justify-center rfid-wave-container">
-                <div id="rfid-wave-container" class="w-full max-w-xl h-64 flex items-center justify-center bg-white rounded-xl border border-accent-cyan/30 p-8 shadow-xl">
-                    <svg viewBox="0 0 400 200" class="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                        <circle cx="200" cy="100" r="10" class="rfid-center"></circle>
-                        <circle cx="200" cy="100" r="15" class="rfid-wave wave-1"></circle>
-                        <circle cx="200" cy="100" r="15" class="rfid-wave wave-2"></circle>
-                        <circle cx="200" cy="100" r="15" class="rfid-wave wave-3"></circle>
-                        <path d="M180 90 Q 190 80, 200 90 T 220 90" stroke="#f3f4f6" fill="none" stroke-width="2"/>
-                        <path d="M180 110 Q 190 120, 200 110 T 220 110" stroke="#f3f4f6" fill="none" stroke-width="2"/>
-                        <rect x="5" y="5" width="390" height="190" fill="none" stroke="#d1d5db" stroke-width="1" rx="5"/>
-                    </svg>
+        </section>
+        
+        <!-- 2. About Us Section -->
+        <section id="about" class="py-20 sm:py-24 bg-white border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Title Block restored from image -->
+                <div class="text-center mb-12">
+                    <h2 class="text-base text-accent-cyan font-semibold tracking-wide uppercase">OUR STORY</h2>
+                    <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-primary-text">A Trusted Partner in the RFID Industry</p>
+                </div>
+
+                <!-- Content Block restored from image: Text Left, Image Right -->
+                <div class="lg:grid lg:grid-cols-2 lg:gap-12 items-start">
+                    
+                    <!-- Text Content (Left) -->
+                    <div class="lg:order-1 space-y-6">
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            LFE Smart is dedicated to being a world-leading manufacturer of RFID apparel tags. We focus on designing, producing, and supplying high-performance Ultra-High Frequency (UHF) RFID tag products aimed at optimizing supply chains, improving retail inventory efficiency, and providing brand anti-counterfeiting solutions.
+                        </p>
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            Our core competence lies in fully automated production lines and a stringent quality control system, ensuring every batch of tags meets the highest industry standards, delivering exceptional reading performance and reliability.
+                        </p>
+                        
+                        <!-- CTA Text - Styled to stand out -->
+                        <p class="mt-6 text-lg font-bold text-accent-cyan leading-relaxed">
+                            Partner with LFE Smart to ensure your supply chain has the most efficient and reliable RFID solution.
+                        </p>
+                    </div>
+
+                    <!-- Image/Graphic (Right) - Placeholder for R&D/Tech Focus -->
+                    <div class="lg:order-2 mt-8 lg:mt-0 p-2 bg-gray-50 rounded-xl shadow-lg border border-gray-200">
+                        <img src="https://i.postimg.cc/JhKLNx9K/Lfe-Factory.png" 
+                            alt="RFID Research and Development Lab graphic" 
+                            class="w-full h-auto rounded-lg shadow-xl">
+                        <p class="text-center text-sm text-gray-500 mt-2">Leading RFID R&D and Technology Integration</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- About Us Section -->
-        <section id="about" class="py-20 bg-white">
+
+        <!-- 3. Core Product Portfolio - Light Background -->
+        <section id="products" class="py-20 sm:py-24 bg-gray-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="lg:text-center mb-12">
-                    <p class="text-lg leading-6 accent-color font-semibold tracking-wider uppercase">Our Story</p>
-                    <h2 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        A Trusted Partner in the RFID Industry
-                    </h2>
+                <div class="text-center">
+                    <h2 class="text-base text-accent-cyan font-semibold tracking-wide uppercase">Core Portfolio</h2>
+                    <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-primary-text">High-Performance RFID Tag Solutions</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-                    <div class="space-y-6 text-lg text-gray-700">
-                        <p>LFE Smart is dedicated to being a world-leading manufacturer of RFID apparel tags. We focus on designing, producing, and supplying high-performance Ultra-High Frequency (UHF) RFID tag products aimed at optimizing supply chains, improving retail inventory efficiency, and providing brand anti-counterfeiting solutions.</p>
-                        <p>Our core competence lies in fully automated production lines and a stringent quality control system, ensuring every batch of tags meets the highest industry standards, delivering exceptional reading performance and reliability.</p>
-                        <p class="font-semibold accent-color">Partner with LFE Smart to ensure your supply chain has the most efficient and reliable RFID solution.</p>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Product 1: Apparel Hang Tags - Added focus:ring -->
+                    <div class="bg-white p-6 rounded-xl shadow-xl transition duration-300 hover:shadow-accent-cyan/30 hover:scale-[1.02] cursor-pointer focus:outline-none focus:ring-4 focus:ring-accent-cyan/50" tabindex="0" onclick="showProductDetails('hangtag')" onkeypress="if(event.key === 'Enter') showProductDetails('hangtag')">
+                        <img src="https://i.postimg.cc/BQjd84ZG/RFID-HANG-TAG.png" alt="Apparel Hang Tags" class="rounded-lg mb-4 object-cover w-full h-40 border border-gray-200">
+                        <h3 class="text-xl font-bold text-accent-cyan">Apparel Hang Tags</h3>
+                        <p class="mt-4 text-gray-700">Ultra-thin UHF labels optimized for high-speed retail inventory and anti-theft security (EAS).</p>
+                        <ul class="mt-4 text-sm text-gray-500 list-disc list-inside space-y-1">
+                            <li>Protocol: EPC Global C1G2</li>
+                            <li>Application: Retail/Fashion, Supply Chain</li>
+                        </ul>
+                        <button class="mt-6 w-full py-2 bg-accent-cyan text-white rounded-lg font-semibold hover:bg-accent-hover transition duration-150 shadow-md focus:outline-none focus:ring-4 focus:ring-accent-cyan/50">Learn More</button>
                     </div>
-                    <div class="h-64 rounded-xl overflow-hidden shadow-2xl bg-gray-100 border border-accent-cyan/50">
-                         <img src="https://i.postimg.cc/JhKLNx9K/Lfe-Factory.png" 
-                            alt="Interior of a modern RFID label manufacturing facility" 
-                            class="w-full h-full object-cover"
-                            loading="lazy"
-                            onerror="this.onerror=null; this.src='https://placehold.co/600x400/cccccc/000000?text=Image+Load+Error:Factory';"
-                        />
+
+                    <!-- Product 2: Industrial Laundry Tags - Added focus:ring -->
+                    <div class="bg-white p-6 rounded-xl shadow-xl transition duration-300 hover:shadow-accent-cyan/30 hover:scale-[1.02] cursor-pointer focus:outline-none focus:ring-4 focus:ring-accent-cyan/50" tabindex="0" onclick="showProductDetails('laundrytag')" onkeypress="if(event.key === 'Enter') showProductDetails('laundrytag')">
+                        <img src="https://i.postimg.cc/HsrfJdWm/RFID-LAUNDRY-TAG.png" alt="Industrial Laundry Tags" class="rounded-lg mb-4 object-cover w-full h-40 border border-gray-200">
+                        <h3 class="text-xl font-bold text-accent-cyan">Industrial Laundry Tags</h3>
+                        <p class="mt-4 text-gray-700">Flexible, heat-resistant tags designed to withstand repeated commercial washing and sterilization.</p>
+                        <ul class="mt-4 text-sm text-gray-500 list-disc list-inside space-y-1">
+                            <li>Durability: 200+ Wash Cycles</li>
+                            <li>Application: Hospitality, Healthcare, Uniforms</li>
+                        </ul>
+                        <button class="mt-6 w-full py-2 bg-accent-cyan text-white rounded-lg font-semibold hover:bg-accent-hover transition duration-150 shadow-md focus:outline-none focus:ring-4 focus:ring-accent-cyan/50">Learn More</button>
+                    </div>
+
+                    <!-- Product 3: Wet/Dry Inlays - Added focus:ring -->
+                    <div class="bg-white p-6 rounded-xl shadow-xl transition duration-300 hover:shadow-accent-cyan/30 hover:scale-[1.02] cursor-pointer focus:outline-none focus:ring-4 focus:ring-accent-cyan/50" tabindex="0" onclick="showProductDetails('inlay')" onkeypress="if(event.key === 'Enter') showProductDetails('inlay')">
+                        <img src="https://i.postimg.cc/ncX6spVZ/RFID-INLAY.png" alt="Wet/Dry Inlays" class="rounded-lg mb-4 object-cover w-full h-40 border border-gray-200">
+                        <h3 class="text-xl font-bold text-accent-cyan">Wet/Dry Inlays</h3>
+                        <p class="mt-4 text-gray-700">Adhesive RFID components for converting into labels or integrating into packaging/documents.</p>
+                        <ul class="mt-4 text-sm text-gray-500 list-disc list-inside space-y-1">
+                            <li>Form Factor: Flexible Adhesive Sticker</li>
+                            <li>Application: General Logistics, Documents, Packaging</li>
+                        </ul>
+                        <button class="mt-6 w-full py-2 bg-accent-cyan text-white rounded-lg font-semibold hover:bg-accent-hover transition duration-150 shadow-md focus:outline-none focus:ring-4 focus:ring-accent-cyan/50">Learn More</button>
+                    </div>
+
+                    <!-- Product 4: Rugged On-Metal Tags - Added focus:ring -->
+                    <div class="bg-white p-6 rounded-xl shadow-xl transition duration-300 hover:shadow-accent-cyan/30 hover:scale-[1.02] cursor-pointer focus:outline-none focus:ring-4 focus:ring-accent-cyan/50" tabindex="0" onclick="showProductDetails('onmetal')" onkeypress="if(event.key === 'Enter') showProductDetails('onmetal')">
+                        <img src="https://i.postimg.cc/CLXkQqpZ/Metal-tags.png" alt="Rugged On-Metal Tags" class="rounded-lg mb-4 object-cover w-full h-40 border border-gray-200">
+                        <h3 class="text-xl font-bold text-accent-cyan">Rugged On-Metal Tags</h3>
+                        <p class="mt-4 text-gray-700">High-durability tags engineered to function reliably on metal surfaces in harsh industrial environments.</p>
+                        <ul class="mt-4 text-sm text-gray-500 list-disc list-inside space-y-1">
+                            <li>Material: Ceramic/Engineered Polymer</li>
+                            <li>Application: IT Assets, Industrial Tools, Logistics Cages</li>
+                        </ul>
+                        <button class="mt-6 w-full py-2 bg-accent-cyan text-white rounded-lg font-semibold hover:bg-accent-hover transition duration-150 shadow-md focus:outline-none focus:ring-4 focus:ring-accent-cyan/50">Learn More</button>
+                    </div>
+
+                    <!-- Product 5: Animal Ear Tags - Added focus:ring -->
+                    <div class="bg-white p-6 rounded-xl shadow-xl transition duration-300 hover:shadow-accent-cyan/30 hover:scale-[1.02] cursor-pointer focus:outline-none focus:ring-4 focus:ring-accent-cyan/50" tabindex="0" onclick="showProductDetails('animaltag')" onkeypress="if(event.key === 'Enter') showProductDetails('animaltag')">
+                        <img src="https://i.postimg.cc/tCwWMxGY/Animal-Tags.png" alt="Animal Ear Tags" class="rounded-lg mb-4 object-cover w-full h-40 border border-gray-200">
+                        <h3 class="text-xl font-bold text-accent-cyan">Animal Ear Tags</h3>
+                        <p class="mt-4 text-gray-700">ISO-compliant tags for livestock identification, breeding control, and disease traceability.</p>
+                        <ul class="mt-4 text-sm text-gray-500 list-disc list-inside space-y-1">
+                            <li>Standard: ISO 11785</li>
+                            <li>Application: Livestock Management, Agriculture</li>
+                        </ul>
+                        <button class="mt-6 w-full py-2 bg-accent-cyan text-white rounded-lg font-semibold hover:bg-accent-hover transition duration-150 shadow-md focus:outline-none focus:ring-4 focus:ring-accent-cyan/50">Learn More</button>
+                    </div>
+
+                    <!-- Product 6: High-Security Seal Tags - Added focus:ring -->
+                    <div class="bg-white p-6 rounded-xl shadow-xl transition duration-300 hover:shadow-accent-cyan/30 hover:scale-[1.02] cursor-pointer focus:outline-none focus:ring-4 focus:ring-accent-cyan/50" tabindex="0" onclick="showProductDetails('sealtag')" onkeypress="if(event.key === 'Enter') showProductDetails('sealtag')">
+                        <img src="https://i.postimg.cc/rw4xXwqp/Supply-Chain-Security.png" alt="High-Security Seal Tags" class="rounded-lg mb-4 object-cover w-full h-40 border border-gray-200">
+                        <h3 class="text-xl font-bold text-accent-cyan">High-Security Seal Tags</h3>
+                        <p class="mt-4 text-gray-700">Tamper-proof seals for securing containers, vehicles, and high-value shipments during transit.</p>
+                        <ul class="mt-4 text-sm text-gray-500 list-disc list-inside space-y-1">
+                            <li>Feature: Breakaway/Tamper Evidence</li>
+                            <li>Application: Supply Chain Security, Customs, Cargo</li>
+                        </ul>
+                        <button class="mt-6 w-full py-2 bg-accent-cyan text-white rounded-lg font-semibold hover:bg-accent-hover transition duration-150 shadow-md focus:outline-none focus:ring-4 focus:ring-accent-cyan/50">Learn More</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Capacity and Milestones Section -->
-        <section id="capacity" class="py-16 bg-accent-cyan/10">
+        <!-- 4. Manufacturing Capacity Section (NEW CONTENT FROM UPLOADED IMAGE) -->
+        <section id="capacity" class="py-20 sm:py-24 bg-gray-100 border-b border-gray-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-center text-3xl font-extrabold text-gray-900 mb-10">Our Scale and Capability</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                    <!-- Stat 1: Annual Capacity -->
-                    <div>
-                        <p class="text-5xl font-extrabold accent-color">1.5B+</p>
-                        <p class="mt-2 text-lg font-medium text-gray-700">Annual Capacity</p>
+                <div class="text-center">
+                    <h2 class="text-base text-accent-cyan font-semibold tracking-wide uppercase">Scale & Capability</h2>
+                    <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-primary-text">Our Global Production Strength</p>
+                </div>
+
+                <div class="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                    
+                    <!-- Metric 1: Annual Capacity (1.5 Billion +) -->
+                    <div class="p-4 rounded-xl">
+                        <!-- Target format: 1.5 Billion+ -->
+                        <p class="counter-value text-4xl sm:text-5xl font-extrabold text-accent-cyan" data-target="1500000000" data-suffix="+" data-format="billion">0</p>
+                        <p class="mt-2 text-xl font-semibold text-primary-text">Annual Capacity</p>
                         <p class="text-sm text-gray-500">(Tags and Inlays)</p>
                     </div>
-                    <!-- Stat 2: Facility Size -->
-                    <div>
-                        <p class="text-5xl font-extrabold accent-color">8,000+</p>
-                        <p class="mt-2 text-lg font-medium text-gray-700">Square Meter Facility</p>
+
+                    <!-- Metric 2: Facility Size (8,000+ Sq Meter) -->
+                    <div class="p-4 rounded-xl">
+                        <!-- Target format: 8,000+ -->
+                        <p class="counter-value text-4xl sm:text-5xl font-extrabold text-accent-cyan" data-target="8000" data-suffix="+" data-format="standard">0</p>
+                        <p class="mt-2 text-xl font-semibold text-primary-text">Square Meter Facility</p>
                         <p class="text-sm text-gray-500">(Modern Clean Workshop)</p>
                     </div>
-                    <!-- Stat 3: Production Lines -->
-                    <div>
-                        <p class="text-5xl font-extrabold accent-color">5+</p>
-                        <p class="mt-2 text-lg font-medium text-gray-700">Fully Automated Lines</p>
+
+                    <!-- Metric 3: Automated Lines (5+) -->
+                    <div class="p-4 rounded-xl">
+                        <!-- Target format: 5+ -->
+                        <p class="counter-value text-4xl sm:text-5xl font-extrabold text-accent-cyan" data-target="5" data-suffix="+" data-format="standard">0</p>
+                        <p class="mt-2 text-xl font-semibold text-primary-text">Fully Automated Lines</p>
                         <p class="text-sm text-gray-500">(High Precision and Efficiency)</p>
                     </div>
-                    <!-- Stat 4: Team Size -->
-                    <div>
-                        <p class="text-5xl font-extrabold accent-color">200+</p>
-                        <p class="mt-2 text-lg font-medium text-gray-700">Professional Team</p>
+
+                    <!-- Metric 4: Professional Team (200+) -->
+                    <div class="p-4 rounded-xl">
+                        <!-- Target format: 200+ -->
+                        <p class="counter-value text-4xl sm:text-5xl font-extrabold text-accent-cyan" data-target="200" data-suffix="+" data-format="standard">0</p>
+                        <p class="mt-2 text-xl font-semibold text-primary-text">Professional Team</p>
                         <p class="text-sm text-gray-500">(R&D and Production Experts)</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Products Section -->
-        <section id="products" class="py-20 bg-gray-50">
+        <!-- 5. Manufacturing Advantages Section (Re-numbered and simplified from original file) -->
+        <section id="manufacturing" class="py-20 sm:py-24 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-center text-4xl font-extrabold text-gray-900 mb-4">Core Product Portfolio</h2>
-                <p class="text-center text-xl text-gray-600 mb-12">High-performance RFID tags designed specifically for the apparel, retail, and asset management industries.</p>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Product Card 1: RFID Hang Tags/Stickers -->
-                    <div class="product-card bg-white p-6 rounded-xl shadow-lg border border-gray-200" onclick="showProductDetails('hang-tag')">
-                        <div class="w-full h-48 mb-4 overflow-hidden rounded-lg border border-gray-300">
-                            <img src="https://i.postimg.cc/BQjd84ZG/RFID-HANG-TAG.png" 
-                                 alt="Various shapes and sizes of RFID apparel hang tags" 
-                                 class="w-full h-full object-cover"
-                                 loading="lazy"
-                                 onerror="this.onerror=null; this.src='https://placehold.co/400x300/cccccc/000000?text=RFID+Hang+Tags';"/>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2 accent-color">RFID Hang Tags / Stickers</h3>
-                        <p class="text-gray-600 mb-4">Used for retail item-level marking, enabling fast and accurate inventory management and loss prevention.</p>
-                        <a onclick="showProductDetails('hang-tag')" class="text-accent-cyan hover:text-cyan-600 font-medium cursor-pointer">Learn More &rarr;</a>
-                    </div>
-                    <!-- Product Card 2: RFID Laundry Tags -->
-                    <div class="product-card bg-white p-6 rounded-xl shadow-lg border border-gray-200" onclick="showProductDetails('laundry-tag')">
-                        <div class="w-full h-48 mb-4 overflow-hidden rounded-lg border border-gray-300">
-                            <img src="https://i.postimg.cc/HsrfJdWm/RFID-LAUNDRY-TAG.png" 
-                                 alt="Durable RFID laundry tags resistant to heat and chemicals" 
-                                 class="w-full h-full object-cover"
-                                 loading="lazy"
-                                 onerror="this.onerror=null; this.src='https://placehold.co/400x300/cccccc/000000?text=RFID+Laundry+Tags';"/>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2 accent-color">RFID Laundry Tags</h3>
-                        <p class="text-gray-600 mb-4">Extremely durable, designed for asset tracking in harsh industrial washing and high-temperature sanitization environments.</p>
-                        <a onclick="showProductDetails('laundry-tag')" class="text-accent-cyan hover:text-cyan-600 font-medium cursor-pointer">Learn More &rarr;</a>
-                    </div>
-                    <!-- Product Card 3: RFID Inlays -->
-                    <div class="product-card bg-white p-6 rounded-xl shadow-lg border border-gray-200" onclick="showProductDetails('inlay-tag')">
-                        <div class="w-full h-48 mb-4 overflow-hidden rounded-lg border border-gray-300">
-                            <img src="https://i.postimg.cc/ncX6spVZ/RFID-INLAY.png" 
-                                 alt="RFID inlays for embedding into various products" 
-                                 class="w-full h-full object-cover"
-                                 loading="lazy"
-                                 onerror="this.onerror=null; this.src='https://placehold.co/400x300/cccccc/000000?text=RFID+Inlays';"/>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2 accent-color">RFID Inlays</h3>
-                        <p class="text-gray-600 mb-4">The core component of the tag, customizable in size and chip type for various integration needs.</p>
-                        <a onclick="showProductDetails('inlay-tag')" class="text-accent-cyan hover:text-cyan-600 font-medium cursor-pointer">Learn More &rarr;</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Industry Solutions Section -->
-        <section id="solutions" class="py-20">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="lg:text-center">
-                    <p class="text-lg leading-6 accent-color font-semibold tracking-wider uppercase">Application Areas</p>
-                    <h2 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        Smart Tracking for Your Industry
-                    </h2>
-                    <p class="mt-4 max-w-2xl text-xl text-gray-600 lg:mx-auto">
-                        Our RFID solutions are designed to solve the most complex challenges in the global apparel and logistics industries.
-                    </p>
+                <div class="text-center">
+                    <h2 class="text-base text-accent-cyan font-semibold tracking-wide uppercase">Our Edge</h2>
+                    <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-primary-text">Why Partner with LFE SMART RFID?</p>
                 </div>
 
-                <div class="mt-10">
-                    <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
-                        <!-- Solution 1: Retail Inventory Management -->
-                        <div class="relative p-4 rounded-lg bg-white shadow-sm border border-gray-200">
-                            <dt>
-                                <svg class="absolute h-8 w-8 accent-color" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                </svg>
-                                <p class="ml-12 text-lg leading-6 font-medium text-gray-900">Retail Inventory Management</p>
-                            </dt>
-                            <dd class="mt-2 ml-12 text-base text-gray-600">
-                                Real-time inventory visibility, increasing accuracy to over 99%, significantly reducing stock-outs and overstock.
-                            </dd>
-                        </div>
-                        <!-- Solution 2: Production and Logistics -->
-                        <div class="relative p-4 rounded-lg bg-white shadow-sm border border-gray-200">
-                            <dt>
-                                <svg class="absolute h-8 w-8 accent-color" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15v2h2v-2h-2zm-3-4a2 2 0 11-4 0 2 2 0 014 0zm10 0a2 2 0 11-4 0 2 2 0 014 0zm-7 0h2v2h-2v-2zM9 21h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zM5 11V5a2 2 0 012-2h10a2 2 0 012 2v6" />
-                                </svg>
-                                <p class="ml-12 text-lg leading-6 font-medium text-gray-900">Production and Logistics Tracking</p>
-                            </dt>
-                            <dd class="mt-2 ml-12 text-base text-gray-600">
-                                Automatic sorting, packing, and shipment verification from factory to distribution center, enhancing supply chain throughput.
-                            </dd>
-                        </div>
-                        <!-- Solution 3: Brand Anti-Counterfeiting -->
-                        <div class="relative p-4 rounded-lg bg-white shadow-sm border border-gray-200">
-                            <dt>
-                                <svg class="absolute h-8 w-8 accent-color" fill="none" viewBox="0 0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-11V7a4 4 0 10-8 0v3h8z" />
-                                </svg>
-                                <p class="ml-12 text-lg leading-6 font-medium text-gray-900">Brand Anti-Counterfeiting & Traceability</p>
-                            </dt>
-                            <dd class="mt-2 ml-12 text-base text-gray-600">
-                                Each tag has a unique digital identity, providing a reliable authentication mechanism to prevent counterfeit products.
-                            </dd>
-                        </div>
-                    </dl>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Manufacturing Features -->
-        <section id="technology" class="py-20 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="lg:text-center mb-12">
-                    <p class="text-lg leading-6 accent-color font-semibold tracking-wider uppercase">Manufacturing Advantages</p>
-                    <h2 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        Guarantee of Exceptional Quality
-                    </h2>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <!-- Feature 1: Fully Automated Production Line -->
-                    <div class="text-center p-6 rounded-xl border border-accent-cyan/30 bg-gray-50/50 shadow-sm">
-                        <svg class="h-10 w-10 accent-color mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1M4 21h16a2 2 0 002-2V5a2 2 0 00-2-2H4a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                        </svg>
-                        <h3 class="text-xl font-bold text-gray-900">Fully Automated Production</h3>
-                        <p class="mt-2 text-sm text-gray-600">The process from inlay to finished tag is fully automated, minimizing human error.</p>
-                    </div>
-                    <!-- Feature 2: High-Speed Custom Printing -->
-                    <div class="text-center p-6 rounded-xl border border-accent-cyan/30 bg-gray-50/50 shadow-sm">
-                        <svg class="h-10 w-10 accent-color mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2v-4h-2m0-4V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h4l4-4h5a2 2 0 002-2v-2a2 2 0 00-2-2h-5m-4 4h4" />
-                        </svg>
-                        <h3 class="text-xl font-bold text-gray-900">High-Speed Custom Printing</h3>
-                        <p class="mt-2 text-sm text-gray-600">Supports ultra-high-speed thermal transfer and inkjet printing for customized text, barcodes, and QR codes in bulk.</p>
-                    </div>
-                    <!-- Feature 3: Quality Inspection Systems -->
-                    <div class="text-center p-6 rounded-xl border border-accent-cyan/30 bg-gray-50/50 shadow-sm">
-                        <svg class="h-10 w-10 accent-color mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.417a2.195 2.195 0 00-1.258-.871l-1.398-.278A2.99 2.99 0 0013.52 3.52l-.278 1.398A2.195 2.195 0 0011.026 5.25a2.195 2.195 0 00-1.258.871l-1.398.278A2.99 2.99 0 005.52 7.52l-.278 1.398A2.195 2.195 0 003.784 10.05a2.195 2.195 0 00-.871 1.258l-.278 1.398A2.99 2.99 0 003.52 14.48l1.398.278A2.195 2.195 0 006.216 16.22a2.195 2.195 0 00.871 1.258l.278 1.398A2.99 2.99 0 0010.48 19.48l1.398-.278A2.195 2.195 0 0013.974 18.75a2.195 2.195 0 001.258-.871l1.398-.278A2.99 2.99 0 0018.48 16.48l.278-1.398A2.195 2.195 0 0020.216 13.95a2.195 2.195 0 00.871-1.258l.278-1.398A2.99 2.99 0 0020.48 9.52l-1.398-.278A2.195 2.195 0 0017.784 7.78a2.195 2.195 0 00-.871-1.258l-.278-1.398z" />
-                        </svg>
-                        <h3 class="text-xl font-bold text-gray-900">100% Quality Inspection</h3>
-                        <p class="mt-2 text-sm text-gray-600">All tags undergo in-line testing to ensure 100% functionality of the chip and antenna performance.</p>
-                    </div>
-                    <!-- Feature 4: Custom Chip Encoding -->
-                    <div class="text-center p-6 rounded-xl border border-accent-cyan/30 bg-gray-50/50 shadow-sm">
-                        <svg class="h-10 w-10 accent-color mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 4l-4 4 4 4" />
-                        </svg>
-                        <h3 class="text-xl font-bold text-gray-900">Custom Chip Encoding</h3>
-                        <p class="mt-2 text-sm text-gray-600">Pre-encoding, locking, and setting access passwords according to customer EPC format requirements for security and reliability.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Contact Section -->
-        <section id="contact" class="py-20 bg-gray-100">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-extrabold text-gray-900 mb-2">Contact Us for a Custom Quotation</h2>
-                    <p class="text-xl text-gray-600">Our team will respond to your inquiry as soon as possible.</p>
-                </div>
-                
-                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <!-- Contact Info (Left Side) -->
-                    <div class="space-y-8 p-6 bg-white rounded-xl shadow-xl">
-                        <h3 class="text-2xl font-bold accent-color">Contact Us Directly</h3> <!-- Contact Us Directly -->
-                        
-                        <div class="flex items-center space-x-4">
-                            <!-- Email -->
-                            <svg class="w-6 h-6 accent-color" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            <div>
-                                <p class="text-lg font-medium text-gray-900">Email:</p>
-                                <a href="mailto:brandon@lfesmart.com" class="text-gray-600 hover:text-accent-cyan transition font-semibold">brandon@lfesmart.com</a>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start space-x-4">
-                            <!-- Location -->
-                            <svg class="w-6 h-6 accent-color flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                            <div>
-                                <p class="text-lg font-medium text-gray-900">Address:</p>
-                                <p class="text-gray-600">No.39, Yuandun Road, Longgang District, Shenzhen, Guangdong, China</p>
-                            </div>
-                        </div>
-                        
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- Advantage 1: Advanced Production Lines -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg relative overflow-hidden group border border-gray-200 hover:shadow-accent-cyan/30 transition duration-300">
+                        <div class="absolute -top-6 -left-6 text-7xl font-extrabold text-accent-cyan/10 transition duration-300 group-hover:text-accent-cyan/20">01</div>
+                        <svg class="h-12 w-12 text-accent-cyan relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-9.618 5.04M12 14v7m-4-3h8"></path></svg>
+                        <h3 class="mt-4 text-xl font-semibold text-primary-text relative z-10">Advanced Production Lines</h3>
+                        <p class="mt-2 text-gray-600 relative z-10">High-speed, fully automated manufacturing ensures capacity for millions of units and near-zero defect rates.</p>
                     </div>
                     
-                    <!-- Contact Form (Right Side) -->
-                    <div class="p-6 bg-white rounded-xl shadow-xl">
+                    <!-- Advantage 2: Global Compliance & Quality -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg relative overflow-hidden group border border-gray-200 hover:shadow-accent-cyan/30 transition duration-300">
+                        <div class="absolute -top-6 -left-6 text-7xl font-extrabold text-accent-cyan/10 transition duration-300 group-hover:text-accent-cyan/20">02</div>
+                        <svg class="h-12 w-12 text-accent-cyan relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2h-1v4h1c1.657 0 3 .895 3 2s-1.343 2-3 2m-8-4h.01M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m4 8h10"></path></svg>
+                        <h3 class="mt-4 text-xl font-semibold text-primary-text relative z-10">Global Compliance & Quality</h3>
+                        <p class="mt-2 text-gray-600 relative z-10">Strict adherence to ISO standards and EPC Global protocols, guaranteeing reliability for worldwide deployment.</p>
+                    </div>
+
+                    <!-- Advantage 3: Rapid Custom Prototyping -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg relative overflow-hidden group border border-gray-200 hover:shadow-accent-cyan/30 transition duration-300">
+                        <div class="absolute -top-6 -left-6 text-7xl font-extrabold text-accent-cyan/10 transition duration-300 group-hover:text-accent-cyan/20">03</div>
+                        <svg class="h-12 w-12 text-accent-cyan relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <h3 class="mt-4 text-xl font-semibold text-primary-text relative z-10">Rapid Custom Prototyping</h3>
+                        <p class="mt-2 text-gray-600 relative z-10">Dedicated R&D team capable of providing custom samples and designs within 72 hours.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Solutions Section - Light Background -->
+        <section id="solutions" class="py-20 sm:py-24 bg-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-base text-accent-cyan font-semibold tracking-wide uppercase">Industry Focus</h2>
+                    <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-primary-text">Vertical Expertise & Real-World Applications</p>
+                </div>
+
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    
+                    <!-- Solution Cards are information-only, so no focus/hover effects needed beyond visual (no onclick) -->
+                    <div class="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:shadow-xl transition duration-300">
+                        <h3 class="text-xl font-bold text-primary-text mb-2">Retail & Fashion</h3>
+                        <p class="text-gray-600 text-sm">Enhance inventory accuracy, prevent loss, and streamline POS processes for garments and accessories.</p>
+                    </div>
+
+                    <div class="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:shadow-xl transition duration-300">
+                        <h3 class="text-xl font-bold text-primary-text mb-2">Logistics & Supply Chain</h3>
+                        <p class="text-gray-600 text-sm">Real-time tracking of pallets, containers, and assets across global distribution networks for end-to-end visibility.</p>
+                    </div>
+
+                    <div class="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:shadow-xl transition duration-300">
+                        <h3 class="text-xl font-bold text-primary-text mb-2">Industrial Asset Tracking</h3>
+                        <p class="text-gray-600 text-sm">Durable solutions for harsh environments, tracking tools, equipment, and IT assets in manufacturing and oil & gas.</p>
+                    </div>
+
+                    <div class="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:shadow-xl transition duration-300">
+                        <h3 class="text-xl font-bold text-primary-text mb-2">Access Control & Security</h3>
+                        <p class="text-gray-600 text-sm">Secure identification via RFID cards, wristbands, and keyfobs for corporate, event, and campus environments.</p>
+                    </div>
+                </div>
+                
+                <!-- CTA Banner - Added focus:ring -->
+                <div class="mt-16 text-center bg-gradient-to-r from-accent-cyan to-teal-400 p-8 rounded-xl shadow-2xl">
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-white">
+                        Need Custom Tags for Your Unique Project?
+                    </h3>
+                    <p class="mt-2 text-lg text-white font-medium">
+                        We deliver custom designs and samples in as fast as 72 hours.
+                    </p>
+                    <a href="#contact" onclick="scrollToSection('contact')" class="mt-6 inline-block px-10 py-3 border border-transparent text-base font-medium rounded-full text-accent-cyan bg-white hover:bg-gray-200 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white/80">
+                        Start Custom Sample Inquiry
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 7. Contact Section - Light Background (Section numbers updated) -->
+        <section id="contact" class="py-20 sm:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-base text-accent-cyan font-semibold tracking-wide uppercase">Get in Touch</h2>
+                    <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-primary-text">Contact Our Global Sales Team</p>
+                </div>
+
+                <div class="mt-12 lg:grid lg:grid-cols-3 lg:gap-12">
+                    
+                    <!-- Contact Info (Left Column) -->
+                    <div class="lg:col-span-1 space-y-8 p-6 bg-gray-100 rounded-xl shadow-xl h-full border border-gray-200">
+                        <h3 class="text-2xl font-bold text-primary-text mb-4">Contact Information</h3>
                         
-                        <!-- 
-                             *** CRITICAL: Formspree Configuration for direct email submission ***
-                             - action: Set to Formspree endpoint pointing to brandon@lfesmart.com.
-                             - method: POST is mandatory for Formspree.
-                             - Hidden field _subject: Sets a clear email subject.
-                        -->
-                        <form id="contact-form" method="POST" action="https://formspree.io/f/brandon@lfesmart.com" class="space-y-6">
-                            <!-- Hidden field to set a clear subject line for the email -->
-                            <input type="hidden" name="_subject" value="Inquiry from LFE Smart Website">
+                        <!-- Email -->
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Email Address</p>
+                            <p class="text-lg font-semibold text-accent-cyan">brandon@lfesmart.com</p>
+                        </div>
+                        
+                        <!-- Address -->
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Global Headquarters</p>
+                            <p class="text-lg text-primary-text">
+                                No.39, Yuandun Road, Longgang District, Shenzhen, Guangdong, China<br>
+                            </p>
+                        </div>
+                        
+                        <!-- CTA for Form -->
+                        <p class="text-gray-500 pt-4">
+                            Need a fast quote? Use the form to send us your project requirements directly.
+                        </p>
+                    </div>
+
+                    <!-- Contact Form (Right Column) -->
+                    <div class="lg:col-span-2 mt-12 lg:mt-0 p-8 bg-gray-100 rounded-xl shadow-xl border border-gray-200">
+                        <h3 class="text-2xl font-bold text-primary-text mb-6">Send an Inquiry</h3>
+
+                        <!-- Formspree Integration -->
+                        <form id="contactForm" action="https://formspree.io/f/xvgwqror" method="POST" class="space-y-6">
+                            <!-- Hidden Subject Field for Formspree -->
+                            <input type="hidden" name="_subject" value="Website Inquiry for LFE SMART RFID">
 
                             <div>
-                                <label for="contact-name" class="block text-sm font-medium text-gray-700">Name / Company Name</label>
-                                <div class="mt-1">
-                                    <input type="text" id="contact-name" name="name" required class="py-3 px-4 block w-full shadow-sm focus:ring-accent-cyan focus:border-accent-cyan border border-gray-300 rounded-lg">
-                                </div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <!-- Added focus:ring for A11Y -->
+                                <input type="text" name="name" id="name" required class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan focus:outline-none text-gray-900">
                             </div>
+                            
                             <div>
-                                <label for="contact-email" class="block text-sm font-medium text-gray-700">Contact Email</label>
-                                <div class="mt-1">
-                                    <!-- name="email" is required by Formspree for the reply-to address -->
-                                    <input type="email" id="contact-email" name="email" required class="py-3 px-4 block w-full shadow-sm focus:ring-accent-cyan focus:border-accent-cyan border border-gray-300 rounded-lg">
-                                </div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Work Email</label>
+                                <!-- Added focus:ring for A11Y -->
+                                <input type="email" name="email" id="email" required class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan focus:outline-none text-gray-900">
                             </div>
+                            
                             <div>
-                                <label for="contact-message" class="block text-sm font-medium text-gray-700">Your Inquiry / Message</label>
-                                <div class="mt-1">
-                                    <textarea id="contact-message" name="message" rows="4" required class="py-3 px-4 block w-full shadow-sm focus:ring-accent-cyan focus:border-accent-cyan border border-gray-300 rounded-lg"></textarea>
-                                </div>
+                                <label for="message" class="block text-sm font-medium text-gray-700">Project Details (Volume, Application, Specs)</label>
+                                <!-- Added focus:ring for A11Y -->
+                                <textarea name="message" id="message" rows="5" required class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan focus:outline-none text-gray-900"></textarea>
                             </div>
-                            <button type="submit" class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-full shadow-sm text-base font-medium text-white bg-accent-cyan hover:bg-cyan-600 transition">
-                                Submit Form
-                            </button>
+                            
+                            <!-- Submit Button -->
+                            <div>
+                                <button type="submit" id="submitButton" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-accent-cyan hover:bg-accent-hover transition duration-300 transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-accent-cyan/50">
+                                    Submit Inquiry
+                                </button>
+                                <!-- Message display area -->
+                                <p id="formMessage" class="mt-4 text-center font-medium"></p>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </section>
-
+        
     </main>
-    
+
     <!-- Footer -->
-    <footer class="bg-gray-800">
-        <div class="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
-            <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
-                <div class="px-5 py-2"><a onclick="scrollToSection('home')" class="text-base text-gray-400 hover:text-white cursor-pointer transition">Home</a></div>
-                <div class="px-5 py-2"><a onclick="scrollToSection('about')" class="text-base text-gray-400 hover:text-white cursor-pointer transition">About Us</a></div>
-                <div class="px-5 py-2"><a onclick="scrollToSection('products')" class="text-base text-gray-400 hover:text-white cursor-pointer transition">Products</a></div>
-                <div class="px-5 py-2"><a onclick="scrollToSection('technology')" class="text-base text-gray-400 hover:text-white cursor-pointer transition">Technology</a></div>
-                <div class="px-5 py-2"><a onclick="scrollToSection('contact')" class="text-base text-gray-400 hover:text-white cursor-pointer transition">Contact</a></div>
-            </nav>
-            <p class="mt-8 text-center text-base text-gray-400">&copy; 2024 LFE Smart. All rights reserved.</p>
+    <footer class="bg-gray-100 border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm text-gray-500">&copy; 2024 LFE SMART RFID. All rights reserved. | <a href="#home" class="hover:text-accent-cyan transition duration-150 focus:outline-none focus:ring-2 focus:ring-accent-cyan/50 rounded-md">Privacy Policy</a></p>
         </div>
     </footer>
-    
-    <!-- Product Details Modal (Hidden by Default) -->
-    <div id="product-modal" class="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full z-50 hidden">
-        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/5 lg:w-2/5 shadow-lg rounded-xl bg-white">
-            <div class="mt-3 text-center">
-                <!-- Modal Title -->
-                <h3 id="modal-title" class="text-2xl leading-6 font-medium text-gray-900 mb-4 accent-color">RFID Tag Details</h3>
-                <!-- Modal Details (Updated to include rich HTML content) -->
-                <div class="mt-2 px-7 py-3 max-h-96 overflow-y-auto text-left">
-                    <div id="modal-details" class="text-sm text-gray-500">Detailed specifications and application information for the product are displayed here.</div>
-                </div>
-                <div class="items-center px-4 py-3">
-                    <button onclick="hideProductDetails()" class="px-4 py-2 bg-accent-cyan text-white text-base font-medium rounded-full w-full shadow-sm hover:bg-cyan-600 transition focus:outline-none">
-                        Close
-                    </button>
-                </div>
+
+    <!-- Modal Structure - A11Y attributes added -->
+    <div id="productModal" class="modal-container fixed inset-0 bg-gray-200 bg-opacity-90 flex items-center justify-center z-[1001] p-4 modal-hidden" onclick="closeModal(event)" role="dialog" aria-modal="true">
+        <div id="modalContent" class="modal-content bg-white p-8 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-300 transform scale-95" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-start border-b border-gray-200 pb-4">
+                <h3 id="modal-title" class="text-2xl font-bold text-accent-cyan">Product Details</h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800 transition duration-150 focus:outline-none focus:ring-2 focus:ring-gray-500/50 rounded-full p-1" aria-label="Close product details modal">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="modal-details" class="mt-6 text-gray-700 space-y-6">
+                <!-- Content will be injected here -->
+            </div>
+            <div class="mt-8 pt-4 border-t border-gray-200">
+                <button onclick="closeModal()" class="w-full py-3 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition duration-150 focus:outline-none focus:ring-4 focus:ring-gray-300/50">Close</button>
             </div>
         </div>
     </div>
     
-    <!-- Floating WhatsApp Button -->
-    <!-- Note: Replace the placeholder number (+8613787400928) with your actual WhatsApp contact number for it to work. -->
-    <a 
-        href="https://wa.me/+8613787400928?text=I%20need%20the%20latest%20quote%20and%20lead%20time%20for%20custom%20RFID%20tags%20for%20apparel." 
-        target="_blank" 
-        class="fixed bottom-6 right-6 z-50 flex items-center bg-green-500 text-white p-3 rounded-full shadow-2xl hover:bg-green-600 transition duration-300 transform hover:scale-105" 
-        title="Get Quote: Custom RFID Tags"
-    >
-        <!-- WhatsApp Icon (inline SVG for portability) -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.001 0C6.111 0 1.258 4.673 1.258 10.457c0 1.765.441 3.447 1.267 4.887l-.9 3.295 3.375-.883a10.61 10.61 0 005.101 1.268h.001c5.889 0 10.655-4.673 10.655-10.457S17.89 0 12.001 0zM17.006 14.28c-.287.172-.515.228-.772.339-.286.126-.643.253-1.001.272-.371.025-1.111.05-1.954-.343-.84-.396-2.228-.865-2.843-1.077-.61-.212-1.047-.358-1.503-.984-.457-.626-.596-1.554-.571-1.926.025-.372.247-.643.374-.77.126-.127.272-.253.398-.379.126-.126.252-.253.379-.379.126-.126.252-.253.379-.379.252-.253.565-.253.818-.253.253 0 .445.006.617.006.17.006.326.044.473.302.148.259.489 1.187.538 1.284.05.097.07.253 0 .445-.075.192-.489.288-.958.55-.47.259-.958.514-1.396.793-.438.28-.769.605-1.125 1.018-.357.412-.769 1.018-.687 1.638.08.621.439 1.241.977 1.637.538.397 1.155.516 1.76.62.605.105 1.176.082 1.614.05.438-.03.743-.075 1.05-.331.306-.255.498-.675.645-1.066.148-.391.243-.765.34-1.107.097-.341.055-.632.029-.785-.027-.154-.253-.253-.505-.379z"/>
+    <!-- Floating WhatsApp Button (REMINDER: Update phone number) -->
+    <a href="https://wa.me/8613787400928?text=I%20need%20the%20latest%20quote%20and%20lead%20time%20for%20custom%20RFID%20tags%20for%20apparel." target="_blank" class="whatsapp-float group" title="WhatsApp Quick Quote">
+        <svg class="whatsapp-icon w-6 h-6 mx-auto transition duration-300 group-hover:scale-110" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.77.46 3.48 1.35 4.97l-1.4 5.14 5.3-1.38c1.45.8 3.1 1.25 4.65 1.25 5.46 0 9.9-4.44 9.9-9.9s-4.44-9.9-9.9-9.9zm4.72 13.9l-.33-.2c-1.02-.63-2.5-1.37-2.92-1.52-.4-.14-.7-.2-.99.27-.3.45-.63.63-.9.65-.25.02-.5-.07-.72-.2-.23-.13-.97-.38-1.85-1.12-.87-.73-1.45-1.63-1.6-1.9-.15-.27 0-.42.11-.64.09-.18.2-.3.3-.43.08-.12.18-.27.27-.42.09-.14.04-.26-.03-.42-.08-.15-.79-1.9-.99-2.31-.19-.4-.38-.34-.53-.34h-.47c-.15 0-.47.06-.72.33-.24.26-.93.92-.93 2.25 0 1.33.95 2.6 1.08 2.78.13.18 1.84 2.8 4.4 3.9 2.55 1.1 2.55.74 3 1.14.47.4 1.18.3 1.63.18.45-.13.97-.4 1.1-.64.13-.24.13-.44.09-.59z"/>
         </svg>
-        <span class="ml-2 font-semibold hidden sm:inline">WhatsApp Quick Quote</span>
+        <span class="sr-only">WhatsApp Quick Quote</span>
     </a>
-    
+
+    <!-- Scroll to Top Button - Added to improve UX on long pages -->
+    <button id="scrollTopBtn" onclick="scrollToSection('home')" class="scroll-top-button focus:outline-none focus:ring-4 focus:ring-accent-cyan/50" aria-label="Back to Top">
+        <svg class="w-6 h-6 mx-auto my-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+    <script>
+        // --- Navigation and Scrolling ---
+
+        // Scroll to section function for smooth navigation
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Mobile Menu Toggle Logic
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const openIcon = document.getElementById('menu-icon-open');
+            const closeIcon = document.getElementById('menu-icon-close');
+            
+            const isExpanded = menu.classList.contains('hidden');
+
+            if (isExpanded) {
+                // Open Menu
+                menu.classList.remove('hidden');
+                openIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+                document.getElementById('mobile-menu-button').setAttribute('aria-expanded', 'true');
+            } else {
+                // Close Menu
+                menu.classList.add('hidden');
+                openIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+                document.getElementById('mobile-menu-button').setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        const modal = document.getElementById('productModal');
+        const modalContent = document.getElementById('modalContent');
+        const title = document.getElementById('modal-title');
+        const details = document.getElementById('modal-details');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        const contactForm = document.getElementById('contactForm');
+        const formMessage = document.getElementById('formMessage');
+        const submitButton = document.getElementById('submitButton');
+        
+        // --- Form Submission Handling (Optimization for UX) ---
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const url = form.action;
+            const formData = new FormData(form);
+            
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+            formMessage.textContent = '';
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    formMessage.textContent = 'Thank you for your inquiry! We will respond within 24 hours.';
+                    formMessage.className = 'mt-4 text-center font-medium text-green-600';
+                    form.reset(); // Clear form fields
+                } else {
+                    // Handle HTTP error responses
+                    const data = await response.json();
+                    if (data.error) {
+                         formMessage.textContent = `Error: ${data.error}`;
+                    } else {
+                        formMessage.textContent = 'Submission failed. Please check your network connection.';
+                    }
+                    formMessage.className = 'mt-4 text-center font-medium text-red-600';
+                }
+            } catch (error) {
+                console.error('Form submission network error:', error);
+                formMessage.textContent = 'A network error occurred. Please try again.';
+                formMessage.className = 'mt-4 text-center font-medium text-red-600';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Inquiry';
+            }
+        });
+
+        // --- Counter Animation Logic ---
+
+        // Capacity Counter Elements
+        const capacitySection = document.getElementById('capacity');
+        const counterValues = document.querySelectorAll('#capacity .counter-value');
+        let countersStarted = false;
+
+        // Helper function to format the number strings
+        function formatNumber(num, suffix, formatType) {
+            if (formatType === "billion") {
+                // Display as 1.5 Billion+
+                const val = (num / 1000000000).toFixed(1); 
+                return `${val} Billion${suffix}`;
+            }
+            // Add commas for thousands (e.g., 8,000)
+            const formatted = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return `${formatted}${suffix}`;
+        }
+
+        // Function to start the counting animation for a single element
+        function startCounter(element) {
+            // Data is retrieved from HTML attributes
+            const target = parseInt(element.getAttribute('data-target'));
+            const suffix = element.getAttribute('data-suffix') || '';
+            const formatType = element.getAttribute('data-format') || 'standard';
+            
+            const duration = 2000; // 2 seconds animation
+            const startTime = performance.now();
+            
+            // Only run if it starts at 0 (or has not been counted yet)
+            if (element.classList.contains('counted')) return; 
+
+            function updateCount(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Use a cubic ease-out function for smoother motion near the end
+                const easedProgress = 1 - Math.pow(1 - progress, 3); 
+                
+                // Calculate current count based on target and progress
+                let currentCount = Math.floor(easedProgress * target);
+
+                // For the "Billion" target, ensure the count smoothly reaches the formatted display point 
+                if (formatType === "billion" && currentCount > 1000000000) {
+                    currentCount = target; // Just jump to target for final display for this one large number
+                }
+
+                // Update display with formatting
+                element.textContent = formatNumber(currentCount, suffix, formatType);
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
+                } else {
+                    // Ensure the final target value is set and mark as counted
+                    element.textContent = formatNumber(target, suffix, formatType);
+                    element.classList.add('counted');
+                }
+            }
+
+            // Start the fade-in animation slightly before the counter starts
+            element.classList.add('counted'); 
+            requestAnimationFrame(updateCount);
+        }
+
+        // Intersection Observer to start the counters when the section is visible
+        const capacityObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !countersStarted) {
+                    countersStarted = true;
+                    // Start animation for all counter elements
+                    counterValues.forEach(startCounter);
+                    
+                    // Stop observing after the animation starts
+                    observer.unobserve(capacitySection);
+                }
+            });
+        }, {
+            // Trigger when 10% of the capacity section is visible
+            threshold: 0.1 
+        });
+
+        // Start observing the capacity section if it exists
+        if (capacitySection) {
+            capacityObserver.observe(capacitySection);
+        }
+
+
+        // --- Scroll to Top Button Logic ---
+        window.onscroll = function() {
+            if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        };
+
+        // --- Modal Functions with Transitions and A11Y ---
+        
+        function showProductDetails(productKey) {
+            
+            // Define product content
+            const products = {
+                // Product 1
+                'hangtag': {
+                    title: 'Apparel Hang Tags & Retail Labels',
+                    details: `
+                        <p class="text-base text-gray-700">Our signature UHF Hang Tags are the global standard for fashion and retail inventory. Designed for quick, accurate, and high-volume deployment, these tags seamlessly integrate into existing security and inventory systems, offering unparalleled visibility from distribution center to point-of-sale.</p>
+                        <h4 class="text-xl font-semibold text-accent-cyan mt-4">Key Features & Benefits</h4>
+                        <ul class="list-disc list-inside ml-4 space-y-2 text-sm text-gray-600">
+                            <li><strong>Dual Functionality:</strong> Supports both high-speed inventory counting and Electronic Article Surveillance (EAS) for loss prevention.</li>
+                            <li><strong>Optimal Read Range:</strong> Tuned for maximum performance in dense retail environments, ensuring fast and accurate stock counts.</li>
+                            <li><strong>Custom Finishes:</strong> Available with custom printing, variable data (barcode/numbering), and diverse materials to match brand aesthetics.</li>
+                            <li><strong>Primary Applications:</strong> Real-time inventory, fitting room tracking, anti-theft security, automated POS checkout.</li>
+                        </ul>
+                    `
+                },
+                // Product 2
+                'laundrytag': {
+                    title: 'Industrial Laundry Tags',
+                    details: `
+                        <p class="text-base text-gray-700">Flexible, robust RFID tags built to endure the harshest industrial cleaning cycles. Essential for commercial laundries, uniform rental services, and healthcare facilities requiring reliable, long-term asset management.</p>
+                        <h4 class="text-xl font-semibold text-accent-cyan mt-4">Key Features & Benefits</h4>
+                        <ul class="list-disc list-inside ml-4 space-y-2 text-sm text-gray-600">
+                            <li><strong>Extreme Durability:</strong> Withstands over 200 cycles of washing, drying, ironing, and harsh industrial chemicals.</li>
+                            <li><strong>High Temperature Resistance:</strong> Functionally stable up to $180^\circ\text{C}$ ($356^\circ\text{F}$) during commercial heat pressing and sterilization processes.</li>
+                            <li><strong>Discreet Integration:</strong> Small, flexible, and easily sewn or heat-sealed into garments without affecting comfort or appearance.</li>
+                            <li><strong>Primary Applications:</strong> Uniform tracking, hotel linen management, patient gown inventory, and textile rental services.</li>
+                        </ul>
+                    `
+                },
+                // Product 3
+                'inlay': {
+                    title: 'Wet & Dry RFID Inlays (Adhesive Labels)',
+                    details: `
+                        <p class="text-base text-gray-700">The foundational component for all RFID labels. Our inlays are high-quality adhesive stickers ready to be converted into finished labels, offering maximum flexibility and cost-efficiency for large-scale logistics and asset tagging.</p>
+                        <h4 class="text-xl font-semibold text-accent-cyan mt-4">Key Features & Benefits</h4>
+                        <ul class="list-disc list-inside ml-4 space-y-2 text-sm text-gray-600">
+                            <li><strong>Global Chip Compatibility:</strong> Available with all major UHF chips (Alien, Impinj, NXP) to fit any system requirement.</li>
+                            <li><strong>Wet vs. Dry:</strong> Offered as 'Dry' (raw adhesive) for integration or 'Wet' (pre-cut, ready-to-use label).</li>
+                            <li><strong>High Sensitivity:</strong> Excellent performance and read distance even on challenging surfaces and dense stacking.</li>
+                            <li><strong>Primary Applications:</strong> Document management, general logistics labeling, pharmaceutical track-and-trace, and product authentication.</li>
+                        </ul>
+                    `
+                },
+                // Product 4: Rugged On-Metal Tags
+                'onmetal': {
+                    title: 'Rugged On-Metal Tags (Industrial Grade)',
+                    details: `
+                        <h4 class="text-xl font-semibold text-accent-cyan">Ultra-Reliable Solution for Enhanced Logistics Efficiency & Inventory Accuracy</h4>
+                        <p class="text-base text-gray-700">Rugged On-Metal Tags are identification tools specifically designed for **extremely challenging environments**. Utilizing unique **anti-metal encapsulation technology** and **ultra-durable materials**, they ensure stable, long-range, and reliable RFID performance even when mounted directly on metal surfaces. Their core value is in achieving **automated, high-speed inventory counting** and the **lowest Total Cost of Ownership (TCO)** for the entire asset lifecycle management.</p>
+                        
+                        <h4 class="text-xl font-semibold text-accent-cyan mt-4">Key Features & Value Propositions</h4>
+                        <ul class="list-disc list-inside ml-4 space-y-2 text-sm text-gray-600">
+                            <li><strong>Exceptional On-Metal Performance:</strong> Guarantees accurate reading on metallic objects (tools, equipment, containers) with minimal signal loss.</li>
+                            <li><strong>High-Efficiency Bulk Reading:</strong> Supports ultra-long range and fast group reading, **cutting inventory time for logistics pallets or turnover boxes by over $90\%$**, significantly optimizing inbound and sorting processes.</li>
+                            <li><strong>Extreme Environmental Endurance:</strong> Encased in polymer/ceramic materials (IP67/IP68), resisting oils, chemicals, and temperatures up to **$200^\circ\text{C}$**.</li>
+                            <li><strong>Long-Term Asset Traceability (Low TCO):</strong> Superior resistance to abrasion and aging, **eliminating frequent replacement costs** and maximizing tag lifespan.</li>
+                            <li><strong>Ideal Applications:</strong> Logistics turnover cage management, **pallet** and cart tracking, heavy industrial manufacturing, IT asset tracking.</li>
+                        </ul>
+                    ` 
+                },
+                // Product 5: Animal Ear Tags
+                'animaltag': {
+                    title: 'Animal Ear Tags (Livestock Management)',
+                    details: `
+                        <h4 class="text-xl font-semibold text-accent-cyan">The Key to Smart Livestock: Precise & Efficient Tracking and Traceability</h4>
+                        <p class="text-base text-gray-700">Animal Ear Tags are the foundation for modern, large-scale ranch management. Our tags provide every livestock animal with a **unique and permanent electronic 'ID card,'** enabling full lifecycle traceability, crucial for managing breeding cycles, health, and meeting regulatory compliance.</p>
+                        
+                        <h4 class="text-xl font-semibold text-accent-cyan mt-4">Key Features & Value Propositions</h4>
+                        <ul class="list-disc list-inside ml-4 space-y-2 text-sm text-gray-600">
+                            <li><strong>Comfort & Safety Design:</strong> Made from medical-grade, non-toxic, flexible TPU materials, designed to ensure comfortable wearing and minimize fallout rates.</li>
+                            <li><strong>Data Collection Automation:</strong> RFID electronic ear tags support automated scanning/reading for fast bulk inventory, real-time logging of health and feed allocation data.</li>
+                            <li><strong>High Durability & Visibility:</strong> Excellent UV, water, and weather resistance; high-contrast laser-etched numbering ensures clarity outdoors and resists fading.</li>
+                            <li><strong>Meets International Standards:</strong> Fully complies with **ISO 11785** standard, critical for achieving international market access and food safety regulations.</li>
+                            <li><strong>Ideal Applications:</strong> Cattle, sheep, and pig farming management, breeding projects, government disease prevention and control, food safety traceability systems.</li>
+                        </ul>
+                    `
+                },
+                // Product 6
+                'sealtag': {
+                    title: 'High-Security Seal Tags',
+                    details: `
+                        <p class="text-base text-gray-700">Designed for securing high-value assets and cargo. These tags utilize a physical seal mechanism that provides clear, tamper-evident proof if unauthorized access occurs, offering an additional layer of electronic tracking and physical security.</p>
+                        <h4 class="text-xl font-semibold text-accent-cyan mt-4">Key Features & Benefits</h4>
+                        <ul class="list-disc list-inside ml-4 space-y-2 text-sm text-gray-600">
+                            <li><strong>Tamper-Evident Security:</strong> Once the plastic or cable seal is broken, it provides irrefutable evidence of breach, invalidating the tag.</li>
+                            <li><strong>Long-Range UHF Performance:</strong> Reliable RFID functionality for tracking sealed assets through checkpoints, ports, and warehouses.</li>
+                            <li><strong>Durable Enclosure:</strong> Weather-resistant materials ensure integrity during long-haul shipping and exposure to harsh elements.</li>
+                            <li><strong>Primary Applications:</strong> Shipping container security, high-value electronics tracking, pharmaceutical integrity, customs inspection.</li>
+                        </ul>
+                    `
+                },
+            };
+            // --- END OF PRODUCT DESCRIPTIONS ---
+
+            const product = products[productKey];
+            if (product) {
+                title.textContent = product.title;
+                details.innerHTML = product.details;
+                
+                // Show modal with transition classes
+                modal.classList.remove('modal-hidden');
+                modal.classList.add('flex', 'modal-visible');
+                // Initiate content transition
+                setTimeout(() => {
+                    modalContent.classList.remove('scale-95');
+                    // Focus on the close button for A11Y when modal opens
+                    document.querySelector('#productModal button[aria-label="Close product details modal"]').focus();
+                }, 10); 
+            }
+        }
+
+        // Close Modal Function with Transitions
+        function closeModal(event) {
+            // Check if the click occurred directly on the modal background or if called by button
+            if (event === undefined || event.target === modal || event.target.closest('button')) {
+                // Hide content instantly to reverse transition
+                modalContent.classList.add('scale-95');
+                
+                // Set container to hidden after transition finishes
+                setTimeout(() => {
+                    modal.classList.add('modal-hidden');
+                    modal.classList.remove('flex', 'modal-visible');
+                    // Return focus to the element that opened the modal (requires tracking, but for simplicity, focusing on the product section)
+                    document.getElementById('products').focus(); 
+                }, 300); // Wait for the transition duration (0.3s)
+            }
+        }
+        
+        // Handle ESC key press to close modal
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && modal.classList.contains('modal-visible')) {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>
